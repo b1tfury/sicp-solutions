@@ -80,13 +80,6 @@
 
 ;; Solution 1.38
 
-(define (cont-frac n d k)
-  (define (iter counter result)
-    (if (< counter 1)
-        result
-        (iter (- counter 1) (/ (n counter) (+ (d counter) result)))))
-  (iter k 0.0))
-
 (define (e k)
   (define n (lambda (i) 1.0))
   (define d (lambda (i)
@@ -98,3 +91,18 @@
   (+ 2 (cont-frac-i n d k)))
 
 (e 100)
+
+
+;; Solution 1.39
+(define (square x) (* x x))
+(define (tan-cf x k)
+  (define n (lambda (i)
+              (if (= i 1)
+                  x
+                  (- (square x)))))
+  (define d (lambda (i)
+              (- (* 2 i) 1)))
+  (cont-frac-i n d k))
+
+(tan-cf (/ 3.1415926 4) 10)
+;;value 0.9999999732051038
