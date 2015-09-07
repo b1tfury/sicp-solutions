@@ -1,0 +1,79 @@
+#lang scheme
+
+;;Solution 1.29
+(define (cube x) (* x x x))
+(define (sum term i next j)
+  (if (> i j)
+      0
+      (+ (term i)
+         (sum term (next i) next j))))
+(define (odd? i)
+  (= (remainder i 2) 1))
+(define (simpson f a b n)
+  (let ((h (/ (- b a) n)))
+    (define (xi i) (+ a (* i h)))
+    (define (next i) (+ i 1))
+    (define (term i)
+      (cond ((or (= i 0) (= i n)) (f (xi i)))
+            ((odd? i) (* 4 (f (xi i))))
+            (else (* 2 (f (xi i))))))
+    (if (odd? n)
+        (display "n must be even!")
+        (* (sum term 0 next n) (/ h 3)))))
+(display "Solution 1.29")
+(newline)
+(simpson cube 0 1 100)
+(simpson cube 0 1 1000)
+
+;; Solution 1.30
+
+(define (sum-new term a next b)
+  (define (iter a result)
+    (if (> a b)
+        result
+        (iter (next a) (+ result (term a)))))
+  (iter a 0))
+
+
+;; Solution 1.31
+
+; recursive
+(define (product-r term i next j)
+  (if (> i j)
+      1
+      (* (term i)
+         (product-r term (next i) next j))))
+
+; iterative
+(define (product-i term i next j)
+  (define (iter i result)
+    (if (> i j)
+        result
+        (iter (next i) (* result (term i)))))
+  (iter i 1))
+
+(define (fact product-f n)
+  (define (term i) i)
+  (define (next i) (+ i 1))
+  (product-f term 1 next n))
+
+(define (pi product-f n)
+  (define (odd? i)
+    (= (remainder i 2) 1))
+  (define (term i)
+    (if (odd? i)
+        (/ (+ i 1) (+ i 2))
+        (/ (+ i 2) (+ i 1))))
+  (define (next i) (+ i 1))
+  (* 4 (product-f term 1.0 next n)))
+
+(newline)
+(display "Solution 1.31")
+(newline)
+(fact product-r 10)
+(fact product-i 10)
+(pi product-r 1000)
+(pi product-i 1000)
+
+
+;; Solution 1.32
