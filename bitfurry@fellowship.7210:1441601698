@@ -77,3 +77,62 @@
 
 
 ;; Solution 1.32
+(define (accumulate combiner null-value term a next b)
+  (if (> a b)
+      null-value
+      (combiner (term a)
+                (accumulate combiner null-value term (next a) next b))))
+
+(define (inc a) ( + a 1))
+
+(define (sum-acc a b)
+  (accumulate + 0 identity a inc b))
+
+(define (product-acc a b)
+  (accumulate * 1 identity a inc b))
+
+(define (accumulate-iter combiner null-value term a next b)
+  (define (iter a result)
+    (if (> a b)
+        result
+        (iter (next a) (combiner result (term a)))))
+  (iter a null-value))
+
+
+;; Solution 1.33
+(define (square a) (* a a))
+
+(define (divides? a b)
+  (= (remainder b a) 0))
+
+(define (find-divisor n test-divisor)
+  (cond ((> (square test-divisor) n) n)
+        ((divides? test-divisor n) test-divisor)
+        (else (find-divisor n (+ test-divisor 1)))))
+
+(define (smallest-divisor n)
+  (find-divisor n 2))
+
+(define (prime? n)
+  (= n (smallest-divisor n)))
+
+(define (filtered-accumulate pred? combiner null-value term a next b)
+  (define (iter a result)
+    (if (> a b)
+        result
+        (iter (next a) (if (pred? a)
+                           (combiner result (term a))
+                           result))))
+  (iter a null-value))
+
+(define (sum-squared-primes a b)
+  (filtered-accumulate prime? + 0 square a inc b))
+
+(define (relative-prime-product n)
+  (define (relatively-prime? i)
+    (define (gcd a b)
+      (if (= b 0)
+          a
+          (gcd b (remainder a b))))
+    (= (gcd i n) 1))
+  (filtered-accumulate relatively-prime? * 1 identity 0 inc n))
