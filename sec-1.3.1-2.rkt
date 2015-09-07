@@ -43,3 +43,16 @@
 (define (integral f a b dx)
   (define (add-dx x) (+ x dx))
   (* (sum f (+ a (/ dx 2.0)) add-dx b) dx))
+
+
+;; Consturcting procedures using lambdas
+
+(define plus4 (lambda (x) (+ x 4)))
+
+(define (square a) (* a a))
+(define (f x y)
+  (let ((a (+ 1 (* x y)))
+        (b (- 1 y)))
+    (+ (* x (square a))
+       (* y b)
+       (* a b))))
