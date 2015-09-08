@@ -5,6 +5,17 @@
 ;; Arithmatic operations for rational numbers
 
 ;; wishful thinking
+(define (cons x y)
+  (define (dispatch m)
+    (cond ((= m 0) x)
+          ((= m 1) y)
+          (else
+           (error "Arguments not 0  or 1 : Cons" m))))
+  dispatch)
+(define (car z) (z 0))
+
+(define (cdr z) (z 1))
+
 (define (gcd x y)
   (if (= y 0)
       x
@@ -49,3 +60,12 @@
 (define one-half (make-rat 1 2))
 
 (print-rat one-half)
+
+;; 2.1.3 What is meant  by data
+
+
+(define a (cons 1 2))
+
+(car a)
+
+(cdr a)

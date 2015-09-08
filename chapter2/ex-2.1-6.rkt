@@ -47,7 +47,7 @@
 (print-rat one-half)
 
 
-;; 2.1.2  Abstraction barriers
+;;  Solution 2.2
 (define (average x y) ( / (+ x y) 2))
 
 (define (point x y) (cons x y))
@@ -64,3 +64,74 @@
 (define (midpoint-segment line)
   (cons (average (car (start-segment line)) (car (end-segment line)))
         (average (cdr (start-segment line)) (cdr (end-segment line)))))
+
+
+;; Solution  2.3
+(define (rectangle l b)
+  (cons l b))
+
+(define (len rect)
+  (car rect))
+
+(define (bred rect)
+  (cdr rect))
+
+(define (perimeter rect)
+   (* 2 (+ (len rect) (bred rect))))
+
+(define (area rect)
+  (* (len rect) (bred rect)))
+
+(define rect (rectangle 10 5))
+
+(len rect)
+
+(bred rect)
+
+(perimeter rect)
+
+(area rect)
+
+
+;; Solution 2.4
+(define (cons-new x y)
+  (lambda (m) (m x y)))
+
+(define (car-new z)
+  (z (lambda (p q) p)))
+
+(define (cdr-new z)
+  (z (lambda (p q) q)))
+
+(define z (cons-new 1 2))
+
+(car-new z)
+
+(cdr-new z)
+
+;; Solution 2.5
+(newline)
+(display "Solution 2.5")
+(newline)
+(define (pow a b)
+  (if (= b 0)
+      1
+      (* a (pow a (- b 1)))))
+
+(define (cons-ab x y)
+  (define (dispatch m)
+    (cond ((= m 0) (pow 2 x))
+          ((= m 1) (pow 3 y))
+          (else
+           (error "Argument is neither 0 or 1. Cons: " m))))
+  dispatch)
+
+(define (car-ab z) (z 0))
+
+(define (cdr-ab z) (z 1))
+
+(define new-z (cons-ab 2 3))
+
+(car-ab new-z)
+
+(cdr-ab new-z)
