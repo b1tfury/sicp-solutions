@@ -135,3 +135,20 @@
 (car-ab new-z)
 
 (cdr-ab new-z)
+
+
+;; Solution 2.6
+(newline)
+(display "Solution 2.6")
+(newline)
+
+(define zero (lambda (f) (lambda (x) x)))
+
+(define (add-1 n)
+  (lambda (f) (lambda (x) (f ((n f ) x)))))
+
+(define one (lambda (f) (lambda (x) (f x))))
+
+(define two (lambda (f) (lambda (x) (f (f x)))))
+
+(= (add-1 zero) one)
