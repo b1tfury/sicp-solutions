@@ -35,16 +35,13 @@
 (newline)
 (display "Solution 2.20")
 (newline)
-(define (same-parity . l)
-  (let ((a (remainder (car l) 2)))
-    (define (parity-iter items result)
-       (cond ((null? items) result)
-             ((= (remainder (car items) 2) a)
-              (parity-iter (list (cdr items)) (append (result (list (car items))))))
-             (else
-              ((parity-iter (cdr items) (list (result)))
-               (display items)))))
-     (parity-iter (cdr l) '())))
-
+(define (same-parity i . li)
+  (define (sp x result)
+    (cond ((null? x) result)
+          ((even? (- i (car x)))
+           (sp (cdr x) (append result (list (car x)))))
+          (else
+           (sp (cdr x) result))))
+  (sp li (list i)))
 
 (same-parity 1 2 3 4 5 6)

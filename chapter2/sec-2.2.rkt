@@ -49,3 +49,20 @@
             (append (cdr l1)
                     l2))))
 (append squares squares)
+
+
+;; Mapping over list
+
+(define (map proc lists)
+  (if (null? lists)
+      null
+      (cons (proc (car lists))
+            (map proc (cdr lists)))))
+
+
+(map (lambda (x) (* x x)) (list 1 2 3 4 5))
+
+(define (scale-list items factor )
+  (map (lambda (x) (* x factor)) items))
+
+(scale-list squares 10)
