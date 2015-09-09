@@ -63,6 +63,21 @@
 (map (lambda (x) (* x x)) (list 1 2 3 4 5))
 
 (define (scale-list items factor )
-  (map (lambda (x) (* x factor)) items))
+  (map (lambda (x) (* x factor))
+       items))
 
 (scale-list squares 10)
+
+;; Hierarchical Structures
+
+(define (count-leaves items)
+  (cond ((null? items) 0)
+        ((not (pair? items)) 1)
+        (else (+ (count-leaves (car items))
+                 [count-leaves (cdr items)]))))
+
+(define x (cons (list 1 2) (list 3 4)))
+
+(length x)
+
+(count-leaves x)
