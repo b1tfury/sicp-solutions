@@ -62,3 +62,51 @@
                                        seqs)))))
 
 (accumulate-n + 0 '((1 2 3) (4 5 6) (7 8 9) (10 11 12)))
+
+
+;; Solution 2.37
+(define (dot-product v w)
+  (accumulate + 0 (map * v w)))
+
+(define (matrix-*-vector m v)
+  (map (lambda (x)
+         (dot-product x v))
+       m))
+
+(define (transpose mat)
+  (accumulate-n
+   cons
+   null
+   mat))
+
+(define (matrix-*-matrix m n)
+  (let ((cols (transpose n)))
+    (map
+     (lambda (x)
+       (map (lambda (y)
+              (dot-product x y))
+            cols))
+     m)))
+
+
+;; Solution 2.38
+(define (fold-left op initial sequence)
+  (define (iter result rest)
+    (if (null? rest)
+        result
+        (iter (op result (car rest))
+              (cdr rest))))
+  (iter initial sequence))
+
+(fold-left  / 1 (list 1 2 3))
+(fold-left  list null (list 1 2 3))
+
+
+;; Solution 2.39
+(define (reverse sequence)
+  (fold-left
+   (lambda (x y) (cons y x))
+   null
+   sequence))
+
+(reverse (list 1 2 3 4 5))
