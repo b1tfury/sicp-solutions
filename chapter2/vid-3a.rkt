@@ -14,15 +14,6 @@
       (cons (proc (car l))
             (map proc (cdr l)))))
 
-(define (map-new proc l)
-  (define (iter proc l res)
-    (if (null? l)
-        res
-        ((iter
-          proc
-          (cdr l)
-          ((cons res (proc (car l))))))))
-  (iter proc l null))
 
 (define (scale-list-new s l)
   (map (lambda (x) (* x s)) l))
@@ -31,5 +22,3 @@
 
 (define (square x) (* x x))
 (map square (list 1 2 3 4 5))
-
-(map-new square (list 1 2 3 4))
